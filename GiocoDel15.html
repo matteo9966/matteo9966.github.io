@@ -1,0 +1,119 @@
+<!doctype html>
+<html> 
+
+<head>  
+
+<style>
+
+.grid {  
+  display: grid;  
+  grid-template-columns: 80px 80px 80px 80px;  
+  grid-template-rows: 80px 80px 80px 80px;
+ 
+  column-gap: 2px;
+  row-gap: 2px;  
+  border-radius 50px;
+  
+
+  
+ // border: 1px solid #550000;  
+}  
+
+ .grid button {  
+  background-color: #cfcfcf;  
+  color: #003333;  
+  font-size: 24px;  
+  font-weight: bold;  
+  border: 1px solid #550000;  
+  outline: none;  
+  cursor: pointer; 
+  border-radius:15px;  
+} 
+
+.grid button:hover {  
+  color: #D4EE9F;  
+  background-color: #003333;  
+} 
+  
+
+
+.footer {  
+  margin-top: 15px;  
+  //display: flex;  
+  justify-content: space-between; 
+    
+}  
+
+.footer span {  
+  flex: 1;  
+  text-align: justify;  
+  font-size: 20px;  
+  color: black;  
+  font-weight: bold;  
+  margin-right: 20px;  
+  margin-top:20px;
+  border: 1px solid black;
+  width:150px;
+  border-radius: 5px;
+  display:inline-block;
+  
+}
+
+.footer button {  
+  border: none;  
+  font-size: 20px;  
+  font-weight: bold;  
+  border-radius: 65px;  
+  box-shadow: 0 1px 4px rgba(10, 0, 0, 0.5);  
+  padding: 5px;  
+  width: 150px;  
+  background-color: #D4EE9F;  
+  color: #003333;  
+  outline: none;  
+  cursor: pointer; 
+  display:inline-block;  
+  margin-right:10px;
+}    
+
+
+</style>
+
+
+</head>
+ 
+<body> 
+ 
+  <div class="grid" >  
+        <button>1</button>  
+        <button>2</button>  
+        <button>3</button>  
+        <button>4</button>  
+        <button>5</button>  
+        <button>6</button>  
+        <button>7</button>  
+        <button>8</button>  
+        <button>9</button>  
+        <button>10</button>  
+        <button>11</button>  
+        <button>12</button>  
+        <button>13</button>  
+        <button>14</button>  
+        <button>15</button>  
+        <button></button>  
+      </div>  
+  
+  <div class="footer"> 
+       <div>
+	      <button>Play</button> 
+		  <button>Restart</button>  
+	   </div>
+        
+        <span id="move">Move: 100</span>  
+        <span id="time">Time: 100</span>  
+      </div>  
+ 
+ 
+</body>
+
+
+</html>
