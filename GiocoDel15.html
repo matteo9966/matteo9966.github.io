@@ -4,8 +4,8 @@
 <head>  
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-@media screen and (max-width: 481px){
-.grid {  
+
+ .grid {  
   display: grid;  
   grid-template-columns: 80px 80px 80px 80px;  
   grid-template-rows: 80px 80px 80px 80px;
@@ -27,7 +27,11 @@
   border: 1px solid #550000;  
   outline: none;  
   cursor: pointer; 
-  border-radius:15px;  
+  border-radius:15px; 
+  box-shadow: -3px 3px orange, -2px 2px orange, -1px 1px light-blue;
+ 
+   
+   
 } 
 
 .grid button:hover {  
@@ -74,7 +78,7 @@
   display:inline-block;  
   margin-right:10px;
 }    
-}
+
 
 </style>
 
@@ -113,7 +117,101 @@
       </div>  
  
  
+ <script>
+ const constraintX=3 ;
+ const constraintY=3 ;
+ 
+ //qui creo un ogetto che mi definisce la posizione nella tabella
+ class Box {  
+  constructor(x, y) {  
+    this.x = x;  
+    this.y = y;  
+  }  
+ /*
+  --------------------------> X
+  | (x,y)| (1,0) |      |     |
+  |-------------------------
+  | (0,1)| (1,1) |(2,1) | 
+  |--------------------------
+  | (0,2)| (1,2) |       
+  |---------------------------
+  |
+  v 
+  Y
+  
+  questo è l'orientamento della scatola a me interessa sapere in ogni momento la posizione di ogni numero 
+  e posso ottenere le coordinate usando i seguenti 4 metodi che chiamero
+  Quad in alto
+  Quad in basso
+  Quad a destra 
+  Quad a sinistra
+  
+ */
+ 
+ function BoxAlto(x,y){
+   if(y===0){
+    return null;
+   }
+   else
+   return new Box(x,y-1):
+ }
+ function BoxBasso(x,y){
+   if(y===constraintY){
+    return null;
+   }
+   else
+   return new Box(x,y+1):
+ }
+ function BoxSinistra(x,y){
+   if(x===0){
+    return null;
+   }
+   else
+   return new Box(x-1,y):
+ }
+ function BoxDestra(x,y){
+   if(x===constraintX){
+    return null;
+   }
+   else
+   return new Box(x+1,y):
+ }
+ 
+ //questa funzione restituisce un array con le posizioni nel seguente ordine alto, basso, sinistra, destra
+ funtion posizioneBoxVicini(x,y){
+ return [ 
+          BoxAlto(x,y),
+		  BoxBasso(x,y),
+		  BoxSinistra(x,y),
+		  BoxDestra(x,y)
+		 ].filter(box=>box!==null); //restituisce un array con le posizioni dei box 
+ 
+ }
+ 
+ 
+ 
+ 
+ </script>
+ 
+ 
+ 
+ 
 </body>
 
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
