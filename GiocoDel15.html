@@ -2,6 +2,195 @@
 <html> 
 
 <head>  
+
+<script>
+ 
+ const constraintX=3 ;
+ const constraintY=3 ;
+ 
+ //qui creo un ogetto che mi definisce la posizione nella tabella
+ class Box {  
+  constructor(x, y) {  
+    this.x = x;  
+    this.y = y;  
+  }  
+ /*
+  --------------------------> X
+  | (x,y)| (1,0) |      |     |
+  |-------------------------
+  | (0,1)| (1,1) |(2,1) | 
+  |--------------------------
+  | (0,2)| (1,2) |       
+  |---------------------------
+  |
+  v 
+  Y
+  
+  questo è l'orientamento della scatola a me interessa sapere in ogni momento la posizione di ogni numero 
+  e posso ottenere le coordinate usando i seguenti 4 metodi che chiamero
+  Quad in alto
+  Quad in basso
+  Quad a destra 
+  Quad a sinistra
+  
+ */
+ 
+  BoxAlto(){
+   if(this.y===0){
+    return null;
+   }
+   else
+   return new Box(this.x,this.y-1);
+ }
+  BoxBasso(){
+   if(this.y===constraintY){
+    return null;
+   }
+   else
+   return new Box(this.x,this.y+1);
+ }
+  BoxSinistra(){
+   if(this.x===0){
+    return null;
+   }
+   else
+   return new Box(this.x-1,this.y);
+ }
+  BoxDestra(){
+   if(this.x===constraintX){
+    return null;
+   }
+   else
+   return new Box(this.x+1,this.y);
+ }
+ 
+ //questa funzione restituisce un array con le posizioni nel seguente ordine alto, basso, sinistra, destra
+ posizioneBoxVicini(){
+ return [ 
+          this.BoxAlto(),
+		  this.BoxBasso(),
+		  this.BoxSinistra(),
+		  this.BoxDestra()
+		 ].filter(box=>box!==null); //restituisce un array con le posizioni dei box 
+ 
+ }
+ 
+ 
+ //per generare un numero random da 0 a 3 si usa :
+ // Math.floor(Math.random()*3);
+ 
+ /*
+    questa è la funzione che è presente sul metodo per generare il box random che sta vicino prende un box nel array restituito 
+	da getnextdoorboxes e ne prende un elemento che sta dentr, 
+    getRandomNextdoorBox() {  
+    const nextdoorBoxes = this.getNextdoorBoxes();  
+    return nextdoorBoxes[Math.floor(Math.random() * nextdoorBoxes.length)];  
+	
+
+  }
+ */
+ //Random() restituisce un numero compreso fra 0 e 1 escluso;
+   BoxRandomVicino() {  
+    const boxes = this.posizioneBoxVicini();  
+    return boxes[Math.floor(Math.random() * boxes.length)];  
+  }  
+ 
+ }
+ 
+ //metodo per scambiare i box , gli passa una matrice, e due box che hanno coordinate x e y 
+ 
+ /*
+   la mia matrice ha le coordinate disposte (x,y) il tutorial le dispone come (y,x)
+   
+ */
+ 
+ 
+ function scambiaScatole(matrice,box1,box2){
+ 
+ const temp= matrice[box1.x][box1.y];
+ matrice[box1.x][box1.y]=matrice[box2.x][box2.y];
+ matrice[box2.x][box2.y]=temp;
+ 
+ 
+ }
+ 
+ //controlla solo se è vero 
+ 
+ function controllaRisultato(matrice) {  
+  return (  
+    matrice[0][0] === 1 &&  
+    matrice[1][0] === 2 &&  
+    matrice[2][0] === 3 &&  
+    matrice[3][0] === 4 &&  
+    matrice[0][1] === 5 &&  
+    matrice[1][1] === 6 &&  
+    matrice[2][1] === 7 &&  
+    matrice[3][1] === 8 &&  
+    matrice[0][2] === 9 &&  
+    matrice[1][2] === 10 &&  
+    matrice[2][2] === 11 &&  
+    matrice[3][2] === 12 &&  
+    matrice[0][3] === 13 &&  
+    matrice[1][3] === 14 &&  
+    matrice[2][3] === 15 &&  
+    mqtrice[3][3] === 0  
+  );  
+};  
+ 
+ //questa funzione restituisce un grid a cui è stato fatto lo shuffle /sto usando il metodo che dice ma secondo me c'è un metodo migliore per farlo
+ function mischiaMatrice(){
+ 
+ let matrice = [[1,2,3,4],
+                [5,6,7,8],
+				[9,10,11,12],
+				[13,14,15,0]];
+let boxvuoto= new Box(3,3);
+
+for(let i=0;i<200;i++){
+
+const randomBox= boxvuoto.BoxRandomVicino();
+scambiaScatole(matrice,randomBox,boxvuoto); 
+boxvuoto=randomBox;
+}
+
+return matrice;
+ 
+ }
+ 
+ // qui salvo la matrice mischiata. 
+ //per adesso prova a finire l'esercizio qui e a vedere se riesco a scambiare il contenuto dei bottoni
+ //questa è una funzione mia.in cui faccio lo shuffle degli elemetni nella tabella.
+ 
+
+ 
+ function mischiatabellagioco(){
+  var matrice = mischiaMatrice();
+    let k=0;
+ for(let i=0; i<4; i++){
+    
+	
+	
+	for(let j=0; j<4;j++){
+	   
+	   document.getElementsByName("btngioco")[k].innerHTML = matrice[j][i] ;
+	   k++;
+	   
+	}
+	
+ }
+ 
+ }
+ 
+ function myFunction() {
+   
+   document.getElementsByName("btngioco")[10].innerHTML =1234;
+ 
+ }
+
+
+</script>
+
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
 
@@ -88,110 +277,34 @@
 <body> 
  
   <div class="grid" >  
-        <button>1</button>  
-        <button>2</button>  
-        <button>3</button>  
-        <button>4</button>  
-        <button>5</button>  
-        <button>6</button>  
-        <button>7</button>  
-        <button>8</button>  
-        <button>9</button>  
-        <button>10</button>  
-        <button>11</button>  
-        <button>12</button>  
-        <button>13</button>  
-        <button>14</button>  
-        <button>15</button>  
-        <button></button>  
+        <button name="btngioco">1</button>  
+        <button name="btngioco">2</button>  
+        <button name="btngioco">3</button>  
+        <button name="btngioco">4</button>  
+        <button name="btngioco">5</button>  
+        <button name="btngioco">6</button>  
+        <button name="btngioco">7</button>  
+        <button name="btngioco">8</button>  
+        <button name="btngioco">9</button>  
+        <button name="btngioco">10</button>  
+        <button name="btngioco">11</button>  
+        <button name="btngioco">12</button>  
+        <button name="btngioco">13</button>  
+        <button name="btngioco">14</button>  
+        <button name="btngioco">15</button>  
+        <button name="btngioco"></button>  
       </div>  
   
   <div class="footer"> 
        <div>
-	      <button>Play</button> 
-		  <button>Restart</button>  
+	      <button onclick="myFunction()">Play</button> 
+		  <button onclick="mischiatabellagioco()">Restart</button>  
 	   </div>
         
         <span id="move">Move: 100</span>  
         <span id="time">Time: 100</span>  
       </div>  
  
- 
- <script>
- const constraintX=3 ;
- const constraintY=3 ;
- 
- //qui creo un ogetto che mi definisce la posizione nella tabella
- class Box {  
-  constructor(x, y) {  
-    this.x = x;  
-    this.y = y;  
-  }  
- /*
-  --------------------------> X
-  | (x,y)| (1,0) |      |     |
-  |-------------------------
-  | (0,1)| (1,1) |(2,1) | 
-  |--------------------------
-  | (0,2)| (1,2) |       
-  |---------------------------
-  |
-  v 
-  Y
-  
-  questo è l'orientamento della scatola a me interessa sapere in ogni momento la posizione di ogni numero 
-  e posso ottenere le coordinate usando i seguenti 4 metodi che chiamero
-  Quad in alto
-  Quad in basso
-  Quad a destra 
-  Quad a sinistra
-  
- */
- 
- function BoxAlto(x,y){
-   if(y===0){
-    return null;
-   }
-   else
-   return new Box(x,y-1):
- }
- function BoxBasso(x,y){
-   if(y===constraintY){
-    return null;
-   }
-   else
-   return new Box(x,y+1):
- }
- function BoxSinistra(x,y){
-   if(x===0){
-    return null;
-   }
-   else
-   return new Box(x-1,y):
- }
- function BoxDestra(x,y){
-   if(x===constraintX){
-    return null;
-   }
-   else
-   return new Box(x+1,y):
- }
- 
- //questa funzione restituisce un array con le posizioni nel seguente ordine alto, basso, sinistra, destra
- funtion posizioneBoxVicini(x,y){
- return [ 
-          BoxAlto(x,y),
-		  BoxBasso(x,y),
-		  BoxSinistra(x,y),
-		  BoxDestra(x,y)
-		 ].filter(box=>box!==null); //restituisce un array con le posizioni dei box 
- 
- }
- 
- 
- 
- 
- </script>
  
  
  
