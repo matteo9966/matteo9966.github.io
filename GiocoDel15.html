@@ -171,8 +171,12 @@ return matrice;
 	
 	
 	for(let j=0; j<4;j++){
-	   
-	   document.getElementsByName("btngioco")[k].innerHTML = matrice[j][i] ;
+	   let valore=matrice[j][i];
+	   if(valore===0)
+	   {
+	    valore="";
+	   }
+	   document.getElementsByName("btngioco")[k].innerHTML = valore ;
 	   k++;
 	   
 	}
