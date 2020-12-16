@@ -1,0 +1,57 @@
+ 
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>My First Web Page</h2>
+<p id="pipino">My first paragraph.</p>
+
+<p>esempio con chiamata di funzione </p>
+
+<p id="par2">ciao</p>
+
+<script>
+
+
+
+ function age(o1,o2,o3) {
+    let date = new Date();
+    return date.getFullYear() - this.year +", "+ o1 +", "+ o2+ ", "+ o3   ;
+  }
+  
+  function nomeauto(){ 
+  return this.name;
+  }
+
+
+class Car {
+  constructor(name, year) {
+    this.name = name;
+    this.year = year;
+  }
+
+}
+
+
+
+var audi = new Car("audi",1990);
+var optional = ["cerchi in lega", "servo stervo", "chiavi"]
+
+var funzioneRestituitaDabind=nomeauto.bind(audi);
+
+document.getElementById("pipino").innerHTML= age.apply(audi,optional);
+document.getElementById("par2").innerHTML= funzioneRestituitaDabind();
+
+
+
+
+//age.call(audi);
+
+
+
+
+
+</script>
+
+</body>
+</html> 

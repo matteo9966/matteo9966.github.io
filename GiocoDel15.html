@@ -107,9 +107,9 @@
  
  function scambiaScatole(matrice,box1,box2){
  
- const temp= matrice[box1.x][box1.y];
- matrice[box1.x][box1.y]=matrice[box2.x][box2.y];
- matrice[box2.x][box2.y]=temp;
+ const temp= matrice[box1.y][box1.x];
+ matrice[box1.y][box1.x]=matrice[box2.y][box2.x];
+ matrice[box2.y][box2.x]=temp;
  
  
  }
@@ -162,7 +162,7 @@ return matrice;
  //questa è una funzione mia.in cui faccio lo shuffle degli elemetni nella tabella.
  
 
- 
+ /*questa funzione mischiatabellagioco non è piu in uso*/
  function mischiatabellagioco(){
   var matrice = mischiaMatrice();
     let k=0;
@@ -190,6 +190,150 @@ return matrice;
    document.getElementsByName("btngioco")[10].innerHTML =1234;
  
  }
+//questo è un costruttore che mi dice lo stato del gioco,
+//La griglia attuale, che ad ogni mossa deve aggiornarsi
+// 
+ class StatoGioco {
+ constructor(stato, grid, mosse){
+  this.stato=stato;
+  this.grid = grid;
+  this.mosse=mosse;
+ }
+ 
+ static CreaPartita(){
+  return new StatoGioco("partita",mischiaMatrice(),0);
+ }
+ 
+ 
+ 
+ }
+ 
+ 
+ //Adesso a parte faccio tutta la logica del gioco, il gioco deve avere solo uno stato per adesso.
+ 
+ class Gioco {
+ //stato gioco glielo passo da creaPartita come oggetto
+ constructor(statoGioco){ 
+  this.statoGioco=statoGioco;
+  }
+  
+  
+  
+  gestisciClickSulNumero(box){
+ 
+ return function() {  
+  const boxVicini=box.posizioneBoxVicini(); // boxVicini è un array di box
+  
+  const boxVuoto=boxVicini.find(box => this.statoGioco.grid[box.y][box.x]===0 );
+//se hai trovato un boxvuoto tra i box vicini
+  if(boxVuoto){
+      
+	  
+       // fai lo swap di box cliccato con box 
+	   // creaun nuovo grid ma con i box swappati
+	  
+      this.statoGioco.mosse+=1;
+	  
+	  const nuovaMatrice = [...this.statoGioco.grid]; // i tre puntini restituiscono il contenuto del grid
+	   scambiaScatole(nuovaMatrice,box,boxVuoto); //nuovaMatrice ha la matrice con i box scambiati
+	   if(controllaRisultato(nuovaMatrice)){
+	     this.statoGioco.stato="vinto";
+	   
+	   }
+	   else {
+	     
+		 this.statoGioco.stato="partita";
+		 this.statoGioco.grid=nuovaMatrice;
+		 this.renderMatrice();
+		 
+		 
+	   }
+  
+     }
+ 
+ 
+ }.bind(this);
+ 
+  }
+  
+ 
+ 
+ //questa funzione in teoria dovrebbe creare una nuova matrice 
+ //con queste righe di codice dato uno state dovrei ottenere un nuovo grid 
+ 
+ renderMatrice(){
+ 
+ 
+ const statoGioco=this.statoGioco.stato;
+ 
+ const grid = this.statoGioco.grid;
+ 
+ var mosse=this.statoGioco.mosse;  // in questa variabile c'è il numero di mosse , ogni click incrementa di uno e il gioco si aggiorna
+ 
+ const newGrid = document.createElement("div");
+ 
+ newGrid.className = "grid"; 
+ 
+ 
+
+  for (let i = 0; i < 4; i++) {  
+      for (let j = 0; j < 4; j++) {  
+        const button = document.createElement("button");  
+  
+        if (statoGioco === "partita") {  
+          button.addEventListener("click", this.gestisciClickSulNumero(new Box(i, j))); //il metodo restituito è bind con l'oggetto bottone 
+        }  
+  
+        button.textContent = grid[j][i] === 0 ? "" : grid[j][i].toString();  
+        newGrid.appendChild(button);  
+      }  
+    }  
+      
+	   
+      
+       document.querySelector(".grid").replaceWith(newGrid); 
+	   
+	   //aggiorno numero mosse: 
+	    document.getElementById("Nmosse").innerHTML= `mosse: ${mosse}`;
+	   
+	   if(statoGioco==="vinto"){
+	      
+		  document.getElementById("messaggio").innerHTML  = `HAI VINTO IN ${mosse} MOSSE!!` ;  
+		  
+	   }
+	   
+   
+ }
+ 
+ //restituisco una funzione che sara l'andler del click del gioco.
+ 
+ 
+ }
+ 
+
+ function vinci(){
+  
+   document.getElementById("messaggio").innerHTML = `HAI VINTO IN poche MOSSE!!` ;
+
+   
+ 
+ 
+} 
+
+
+
+//partita.renderMatrice();
+
+
+function faiPartireStaMerda(){
+   const partita = new Gioco(StatoGioco.CreaPartita());
+   document.getElementById("messaggio").innerHTML="";
+   
+   partita.renderMatrice();
+   console.log(document.getElementById("matrice"));
+}
+
+
 
 
 </script>
@@ -198,7 +342,8 @@ return matrice;
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
 
- .grid {  
+ .grid { 
+  
   display: grid;  
   grid-template-columns: 80px 80px 80px 80px;  
   grid-template-rows: 80px 80px 80px 80px;
@@ -213,7 +358,10 @@ return matrice;
 }  
 
  .grid button {  
-  background-color: #cfcfcf;  
+  background-color: #90EE90;  
+   box-shadow: -2px 2px #32CD32, -2px 2px #32CD32, -1px 1px #32CD32;
+    border: 1px solid black;
+  
   color: #003333;  
   font-size: 24px;  
   font-weight: bold;  
@@ -221,7 +369,7 @@ return matrice;
   outline: none;  
   cursor: pointer; 
   border-radius:15px; 
-  box-shadow: -3px 3px orange, -2px 2px orange, -1px 1px light-blue;
+ 
  
    
    
@@ -235,7 +383,8 @@ return matrice;
 
 
 .footer {  
-  margin-top: 15px;  
+ position:relative;
+  margin-top: 10px;  
   //display: flex;  
   justify-content: space-between; 
     
@@ -244,13 +393,13 @@ return matrice;
 .footer span {  
   flex: 1;  
   text-align: justify;  
-  font-size: 20px;  
-  color: black;  
+  font-size: 30px;  
+  color: #191970;  
   font-weight: bold;  
   margin-right: 20px;  
   margin-top:20px;
-  border: 1px solid black;
-  width:150px;
+  border: 1px solid lime;
+  width:250px;
   border-radius: 5px;
   display:inline-block;
   
@@ -263,14 +412,34 @@ return matrice;
   border-radius: 65px;  
   box-shadow: 0 1px 4px rgba(10, 0, 0, 0.5);  
   padding: 5px;  
-  width: 150px;  
+  width: 320px;  
   background-color: #D4EE9F;  
   color: #003333;  
   outline: none;  
   cursor: pointer; 
-  display:inline-block;  
+  display:inline-block; 
+  margin-top:10px;  
   margin-right:10px;
 }    
+
+#messaggio {
+  
+  color: Acquamarine;
+  position: relative;
+  height:100px;
+  width:800px;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+
+@keyframes example {
+  from {left: 500px; color:#00FFFF}
+  to {left: 0px; color:#483D8B}
+}
+}
+
 
 
 </style>
@@ -278,9 +447,11 @@ return matrice;
 
 </head>
  
-<body> 
+<body style=" background-color:#6A5ACD" > 
+
+<h1 style="text-shadow:1px 1px 0 #444; color:lime">Gioco del 15 </h1>
  
-  <div class="grid" >  
+  <div class="grid" id="matrice">  
         <button name="btngioco">1</button>  
         <button name="btngioco">2</button>  
         <button name="btngioco">3</button>  
@@ -299,14 +470,23 @@ return matrice;
         <button name="btngioco"></button>  
       </div>  
   
+  
   <div class="footer"> 
-       <div>
-	      <button onclick="myFunction()">Play</button> 
-		  <button onclick="mischiatabellagioco()">Restart</button>  
+       <div id="messagio" > <h1 id="messaggio"></h1> </div>
+     
+       <div id="buttondiv">
+	      <button onclick="faiPartireStaMerda()">Play</button> 
+		 
+		 <!--
+		 <button onclick="vinci()">Vinci</button>  
+         -->
+
 	   </div>
         
-        <span id="move">Move: 100</span>  
-        <span id="time">Time: 100</span>  
+        <span id="Nmosse">Mosse: </span>  
+        <!--
+		<span id="time">Time: 100</span>  
+		-->
       </div>  
  
  
