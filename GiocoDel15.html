@@ -238,6 +238,7 @@ return matrice;
 	   scambiaScatole(nuovaMatrice,box,boxVuoto); //nuovaMatrice ha la matrice con i box scambiati
 	   if(controllaRisultato(nuovaMatrice)){
 	     this.statoGioco.stato="vinto";
+		 this.renderMatrice();
 	   
 	   }
 	   else {
@@ -298,7 +299,7 @@ return matrice;
 	   
 	   if(statoGioco==="vinto"){
 	      
-		  document.getElementById("messaggio").innerHTML  = `HAI VINTO IN ${mosse} MOSSE!!` ;  
+		  document.getElementById("messaggio").innerHTML  = `HAI VINTO IN ${mosse} MOSSE!! (Brizio sei il migliore)` ;  
 		  
 	   }
 	   
