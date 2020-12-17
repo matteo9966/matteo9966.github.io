@@ -300,7 +300,7 @@ return matrice;
       
        document.querySelector(".grid").replaceWith(newGrid); 
 	   
-	   //console.log([...grid]);
+	   // console.log([...grid]);
 	   
 	   //aggiorno numero mosse: 
 	    document.getElementById("Nmosse").innerHTML= `Mosse: ${mosse}`;
@@ -350,6 +350,11 @@ function faiPartireStaMerda(){
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
+html {
+    height: 100%;
+    display: grid;
+}
+
 
  .grid { 
   
